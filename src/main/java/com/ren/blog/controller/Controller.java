@@ -8,6 +8,11 @@ import com.ren.blog.posts.PostResponseDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,19 +23,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("posts")
 public class Controller {
 
-  @Autowired private PostRepository postRepository;
+  @Autowired
+  private PostRepository postRepository;
 
   @GetMapping
-  public List<PostResponseDTO> getPosts() {
-    List<PostResponseDTO> postList =
-        postRepository.findAll().stream().map(PostResponseDTO::new).toList();
-    return postList;
+  public List<PostResponseDTO> getPosts(
+      @RequestParam Optional<Integer> page, @RequestParam Optional<String> sortBy) {
+    // Here in paging we define what we want to show. the 0 represents the page we
+    // are,
+    // and the 5 is the amount of content(in this case posts) we want per page.
+    Pageable paging = PageRequest.of(page.orElse(0), 5, Sort.by(sortBy.orElse("id")));
+    Page<Post> pagedResult = postRepository.findAll(paging);
+    return pagedResult.getContent().stream().map(PostResponseDTO::new).toList();
   }
 
   @GetMapping("/{id}")

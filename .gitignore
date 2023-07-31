@@ -9,6 +9,7 @@ target/
 
 ### MAVEN ###
 .mvn/
+.mvn/wrapper
 
 ### STS ###
 .apt_generated
