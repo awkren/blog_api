@@ -11,6 +11,8 @@ target/
 .mvn/
 .mvn/wrapper
 
+src/main/resources/application.properties
+
 ### STS ###
 .apt_generated
 .classpath

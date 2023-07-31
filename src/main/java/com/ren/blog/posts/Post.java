@@ -1,6 +1,7 @@
 package com.ren.blog.posts;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,8 +19,8 @@ public class Post {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String title;
-  private String content;
+  @NotEmpty private String title;
+  @NotEmpty private String content;
 
   public Post(PostRequestDTO data) {
     this.title = data.title();
