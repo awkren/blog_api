@@ -1,5 +1,6 @@
 package com.ren.blog.controller;
 
+import com.ren.blog.exception.PostNotFoundException;
 import com.ren.blog.posts.Post;
 import com.ren.blog.posts.PostRepository;
 import com.ren.blog.posts.PostRequestDTO;
@@ -36,7 +37,7 @@ public class Controller {
   public ResponseEntity<Object> getSinglePost(@PathVariable(value = "id") Long id) {
     Optional<Post> getPost = postRepository.findById(id);
     if (getPost.isEmpty()) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found.");
+      throw new PostNotFoundException("Post not found.");
     }
     return ResponseEntity.status(HttpStatus.OK).body(getPost.get());
   }
@@ -52,7 +53,7 @@ public class Controller {
   public ResponseEntity<Object> deletePost(@PathVariable(value = "id") Long id) {
     Optional<Post> getPost = postRepository.findById(id);
     if (getPost.isEmpty()) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found.");
+      throw new PostNotFoundException("Post not found.");
     }
     postRepository.delete(getPost.get());
     return ResponseEntity.status(HttpStatus.OK).body("Post deleted successfully!");
@@ -63,7 +64,7 @@ public class Controller {
       @PathVariable(value = "id") Long id, @RequestBody PostRequestDTO data) {
     Optional<Post> getPost = postRepository.findById(id);
     if (getPost.isEmpty()) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found.");
+      throw new PostNotFoundException("Post not found.");
     }
     Post postData = getPost.get();
     postData.update(data);
