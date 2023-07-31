@@ -25,4 +25,9 @@ public class Post {
     this.title = data.title();
     this.content = data.content();
   }
+
+  public void update(PostRequestDTO data) {
+    this.title = data.title();
+    this.content = data.content();
+  }
 }

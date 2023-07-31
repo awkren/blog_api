@@ -7,6 +7,9 @@ target/
 ### CONFIG ###
 .env
 
+### MAVEN ###
+.mvn/
+
 ### STS ###
 .apt_generated
 .classpath

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,5 +56,18 @@ public class Controller {
     }
     postRepository.delete(getPost.get());
     return ResponseEntity.status(HttpStatus.OK).body("Post deleted successfully!");
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Object> updatePost(
+      @PathVariable(value = "id") Long id, @RequestBody PostRequestDTO data) {
+    Optional<Post> getPost = postRepository.findById(id);
+    if (getPost.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found.");
+    }
+    Post postData = getPost.get();
+    postData.update(data);
+    Post updatedPost = postRepository.save(postData);
+    return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
   }
 }
