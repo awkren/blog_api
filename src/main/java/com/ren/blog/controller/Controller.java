@@ -72,6 +72,12 @@ public class Controller {
     return ResponseEntity.status(HttpStatus.OK).body("Post deleted successfully!");
   }
 
+  @DeleteMapping
+  public ResponseEntity<Object> deleteAllPosts() {
+    postRepository.deleteAll();
+    return ResponseEntity.status(HttpStatus.OK).body("All posts deleted successfully!");
+  }
+
   @PutMapping("/{id}")
   public ResponseEntity<Object> updatePost(
       @PathVariable(value = "id") Long id, @RequestBody PostRequestDTO data) {
