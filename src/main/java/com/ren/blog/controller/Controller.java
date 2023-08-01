@@ -1,6 +1,8 @@
 package com.ren.blog.controller;
 
 import com.ren.blog.exception.PostNotFoundException;
+import com.ren.blog.posts.Comment;
+import com.ren.blog.posts.CommentRepository;
 import com.ren.blog.posts.Post;
 import com.ren.blog.posts.PostRepository;
 import com.ren.blog.posts.PostRequestDTO;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 
   @Autowired private PostRepository postRepository;
+  @Autowired private CommentRepository commentRepository;
 
   @GetMapping
   public List<PostResponseDTO> getPosts(
@@ -68,6 +71,8 @@ public class Controller {
     if (getPost.isEmpty()) {
       throw new PostNotFoundException("Post not found.");
     }
+    List<Comment> comments = commentRepository.findByPost(getPost.get());
+    commentRepository.deleteAll(comments);
     postRepository.delete(getPost.get());
     return ResponseEntity.status(HttpStatus.OK).body("Post deleted successfully!");
   }
@@ -89,5 +94,17 @@ public class Controller {
     postData.update(data);
     Post updatedPost = postRepository.save(postData);
     return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
+  }
+
+  @PostMapping("/{post_id}/comments")
+  public void saveComment(
+      @PathVariable(value = "post_id") Long post_id, @Valid @RequestBody Comment comment) {
+    Optional<Post> post = postRepository.findById(post_id);
+    if (post.isEmpty()) {
+      throw new PostNotFoundException("Post not found.");
+    }
+
+    comment.setPost(post.get());
+    commentRepository.save(comment);
   }
 }

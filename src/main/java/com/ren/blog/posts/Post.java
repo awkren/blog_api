@@ -2,6 +2,7 @@ package com.ren.blog.posts;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,6 +22,9 @@ public class Post {
 
   @NotEmpty private String title;
   @NotEmpty private String content;
+
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<Comment> comments;
 
   public Post(PostRequestDTO data) {
     this.title = data.title();
