@@ -6,6 +6,60 @@ PostgreSQL is used as the database, and it's run using a docker-compose file, ma
 
 <hr>
 
+### **You can use basic CRUD operations to manage posts**
+
+**POST**
+
+You can create a new post by sending a POST request to `/posts` with the following body:
+
+```json
+{
+    "title": "The Second Post",
+    "content": "This is the second post!"
+}
+```
+
+**GET**
+
+You can get all posts by sending a GET request to `/posts`:
+
+```
+GET /posts
+```
+
+Or you can get a specific post by passing an ID:
+
+```json
+GET /posts/{id}
+```
+
+**PUT**
+
+You can edit an existing post by sending a PUT request to `/posts/{id}` and passing the edited fields:
+
+```json
+{
+    "title": "The First Post",
+    "content": "This is indeed the first post!"
+}
+```
+
+**DELETE**
+
+You can delete an existing post by sending a DELETE request to `/posts/{id}`:
+
+```json
+DELETE /posts/{id}
+```
+
+You can also delete all posts by sending a DELETE to request to `/posts`:
+
+```json
+DELETE /posts
+```
+
+<hr>
+
 ### **The comments system works by posting a username and content to the ID of a specific post (e.g., /posts/1).**
 
 You need to make a POST request to:
@@ -104,3 +158,4 @@ The default addresses are:
 _localhost:9090_
 - **API**:
 _localhost:8080/posts_
+
