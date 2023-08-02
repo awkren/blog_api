@@ -65,14 +65,16 @@ DELETE /posts
 You need to make a POST request to:
 
 ```
-/posts/{postId}/comments
+POST /posts/{postId}/comments
 ```
 
 With the following structure:
 
-```
-"username": "User 2",
-"content": "great post"
+```json
+{
+    "username": "User 2",
+    "content": "great post"
+}
 ```
 
 The comments are automatically associated with the post by reference in the database.
@@ -104,7 +106,7 @@ The comments are automatically associated with the post by reference in the data
 ### **It also has a search functionality that do searches based on keywords. It works by search for matching keywords in either the title or content of a post.**
 
 ```
-/posts/search?keyword=post called
+GET /posts/search?keyword=post called
 ```
 
 It should return something like this:
