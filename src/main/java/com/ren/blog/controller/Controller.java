@@ -35,8 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class Controller {
 
-  @Autowired private PostRepository postRepository;
-  @Autowired private CommentRepository commentRepository;
+  @Autowired
+  private PostRepository postRepository;
+  @Autowired
+  private CommentRepository commentRepository;
 
   @GetMapping
   public List<PostResponseDTO> getPosts(
@@ -56,6 +58,15 @@ public class Controller {
       throw new PostNotFoundException("Post not found.");
     }
     return ResponseEntity.status(HttpStatus.OK).body(getPost.get());
+  }
+
+  @GetMapping("/search")
+  public List<Post> searchPosts(@RequestParam(value = "keyword", required = false) String keyword) {
+    if (keyword != null) {
+      return postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+    } else {
+      return postRepository.findAll();
+    }
   }
 
   @CrossOrigin(origins = "*", allowedHeaders = "*")
