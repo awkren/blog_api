@@ -29,7 +29,7 @@ GET /posts
 
 Or you can get a specific post by passing an ID:
 
-```json
+```
 GET /posts/{id}
 ```
 
@@ -48,13 +48,13 @@ You can edit an existing post by sending a PUT request to `/posts/{id}` and pass
 
 You can delete an existing post by sending a DELETE request to `/posts/{id}`:
 
-```json
+```
 DELETE /posts/{id}
 ```
 
 You can also delete all posts by sending a DELETE to request to `/posts`:
 
-```json
+```
 DELETE /posts
 ```
 
