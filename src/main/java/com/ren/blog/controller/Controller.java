@@ -63,7 +63,7 @@ public class Controller {
   @GetMapping("/search")
   public List<Post> searchPosts(@RequestParam(value = "keyword", required = false) String keyword) {
     if (keyword != null) {
-      return postRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+      return postRepository.findByTitleContainingIgnoreCaseOrContentContaining(keyword, keyword);
     } else {
       return postRepository.findAll();
     }
