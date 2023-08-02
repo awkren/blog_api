@@ -6,7 +6,7 @@ PostgreSQL is used as the database, and it's run using a docker-compose file, ma
 
 <hr>
 
-**The comments system works by posting a username and content to the ID of a specific post (e.g., /posts/1).**
+### **The comments system works by posting a username and content to the ID of a specific post (e.g., /posts/1).**
 
 You need to make a POST request to:
 
@@ -23,7 +23,7 @@ With the following structure:
 
 The comments are automatically associated with the post by reference in the database.
 
-### **When a get request is made to /posts/1, the comments related to that post are shown.**
+**When a get request is made to /posts/1, the comments related to that post are shown.**
 
 ```json
 {
