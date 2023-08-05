@@ -154,6 +154,11 @@ Or if you don't have Maven installed on your machine, run the executable file:
 ./mvnw spring-boot:run
 ```
 
+
+We also need to configure a few things in pgAdmin. To do so, go to `localhost:9090` and log in with the credentials in the docker-compose file.
+
+Next, click on `Add New Server`, _Name_ should be `posts` and under _Connection_, the _Host name/address_ should be `pgdatabase`. Also, don't forget to add the password, which in this case would be `123`
+
 The default addresses are:
 
 - **pgAdmin**: 
