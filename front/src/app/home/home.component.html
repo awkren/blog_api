@@ -3,7 +3,7 @@
     <p>Blogging API</p>
   </div>
   <div id="blog-posts" *ngFor="let p of posts" class="text-center p-3">
-    <p class="text-secondary">dd-mm-yyyy</p>
+    <p class="text-secondary">{{p.formattedCreatedAt}}</p>
     <p class="display-6 text-primary">{{ p.title }}</p>
   </div>
 </div>
