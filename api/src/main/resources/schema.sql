@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS posts (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
 );
 
 -- Create the "comments" table with foreign key reference to the "posts" table

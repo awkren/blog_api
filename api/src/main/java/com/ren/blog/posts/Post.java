@@ -2,6 +2,7 @@ package com.ren.blog.posts;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -23,16 +24,20 @@ public class Post {
   @NotEmpty private String title;
   @NotEmpty private String content;
 
+  private LocalDateTime createdAt;
+
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<Comment> comments;
 
   public Post(PostRequestDTO data) {
     this.title = data.title();
     this.content = data.content();
+    this.createdAt = data.createdAt();
   }
 
   public void update(PostRequestDTO data) {
     this.title = data.title();
     this.content = data.content();
+    this.createdAt = data.createdAt();
   }
 }
