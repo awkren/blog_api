@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Table(name = "posts")
 @Entity(name = "posts")
@@ -21,9 +22,12 @@ public class Post {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotEmpty private String title;
-  @NotEmpty private String content;
+  @NotEmpty
+  private String title;
+  @NotEmpty
+  private String content;
 
+  @CreationTimestamp
   private LocalDateTime createdAt;
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
