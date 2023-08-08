@@ -36,10 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Controller {
 
-  @Autowired
-  private PostRepository postRepository;
-  @Autowired
-  private CommentRepository commentRepository;
+  @Autowired private PostRepository postRepository;
+  @Autowired private CommentRepository commentRepository;
 
   @GetMapping
   public List<PostResponseDTO> getPosts(

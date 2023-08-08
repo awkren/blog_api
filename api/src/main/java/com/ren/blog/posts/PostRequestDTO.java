@@ -1,3 +1,5 @@
 package com.ren.blog.posts;
 
-public record PostRequestDTO(String title, String content) {}
+import java.time.LocalDateTime;
+
+public record PostRequestDTO(String title, String content, LocalDateTime createdAt) {}
