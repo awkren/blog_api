@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("posts")
 @Validated
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class Controller {
 
   @Autowired
