@@ -32,6 +32,7 @@ public class SecurityConfigurations {
             // mas foda-se, dps tiro. É só pra testar por enquanto
             .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
             .requestMatchers(HttpMethod.POST, "/posts").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/posts").permitAll()
             .anyRequest().authenticated()
         )
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
