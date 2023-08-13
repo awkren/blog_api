@@ -1,10 +1,9 @@
 package com.ren.blog.controller;
 
-import com.ren.blog.user.AuthenticationDTO;
-import com.ren.blog.user.RegisterDTO;
-import com.ren.blog.user.User;
-import com.ren.blog.user.UserRepository;
+import com.ren.blog.infra.security.TokenService;
+import com.ren.blog.user.*;
 import jakarta.validation.Valid;
+import org.antlr.v4.runtime.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +23,18 @@ public class AuthenticationController {
   private AuthenticationManager authenticationManager;
   @Autowired
   private UserRepository repository;
+
+  @Autowired
+  private TokenService tokenService;
+
   @PostMapping("/login")
   public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
     var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
     var auth = this.authenticationManager.authenticate(usernamePassword);
 
-    return ResponseEntity.ok().build();
+    var token = tokenService.generateToken((User) auth.getPrincipal());
+
+    return ResponseEntity.ok(new LoginResponseDTO(token));
   }
 
   @PostMapping("/register")
