@@ -14,3 +14,11 @@ CREATE TABLE IF NOT EXISTS comments (
     post_id INTEGER NOT NULL,
     FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE
 );
+
+-- Create the users table to handle the login/auth system
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    login TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    role TEXT NOT NULL
+);
