@@ -107,6 +107,15 @@ public class Controller {
     return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
   }
 
+  @GetMapping("/{post_id}/comments/{id}")
+  public ResponseEntity<Object> getSingleComment(@PathVariable(value = "id") Long id){
+    Optional<Comment> getComment = commentRepository.findById(id);
+    if (getComment.isEmpty()) {
+      throw new PostNotFoundException("Commentary not found.");
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(getComment.get());
+  }
+
   @PostMapping("/{post_id}/comments")
   public void saveComment(
       @PathVariable(value = "post_id") Long post_id, @Valid @RequestBody Comment comment) {
