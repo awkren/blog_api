@@ -107,6 +107,15 @@ public class Controller {
     return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
   }
 
+  @GetMapping("/{post_id}/comments/{id}")
+  public ResponseEntity<Object> getSingleComment(@PathVariable(value = "id") Long id){
+    Optional<Comment> getComment = commentRepository.findById(id);
+    if (getComment.isEmpty()) {
+      throw new PostNotFoundException("Commentary not found.");
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(getComment.get());
+  }
+
   @PostMapping("/{post_id}/comments")
   public void saveComment(
       @PathVariable(value = "post_id") Long post_id, @Valid @RequestBody Comment comment) {
@@ -117,5 +126,15 @@ public class Controller {
 
     comment.setPost(post.get());
     commentRepository.save(comment);
+  }
+
+  @GetMapping("/{post_id}/comments")
+  public List<Comment> getComments(@PathVariable(value = "post_id") Long post_id){
+    Optional<Post> post = postRepository.findById(post_id);
+    if(post.isEmpty()){
+      throw new PostNotFoundException("Post not found.");
+    }
+    List<Comment> comments = commentRepository.findByPost(post.get());
+    return comments;
   }
 }
