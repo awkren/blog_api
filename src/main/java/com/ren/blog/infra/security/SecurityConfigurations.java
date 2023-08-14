@@ -34,6 +34,7 @@ public class SecurityConfigurations {
             .requestMatchers(HttpMethod.POST, "/posts").hasRole("ADMIN")
             .requestMatchers(HttpMethod.GET, "/posts/{id}").permitAll()
             .requestMatchers(HttpMethod.POST, "/posts/{id}/comments").hasRole("USER")
+            .requestMatchers(HttpMethod.GET, "/posts/{id}/comments").permitAll()
             .requestMatchers(HttpMethod.GET, "/posts").permitAll()
             .anyRequest().authenticated()
         )

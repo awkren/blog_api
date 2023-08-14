@@ -118,4 +118,14 @@ public class Controller {
     comment.setPost(post.get());
     commentRepository.save(comment);
   }
+
+  @GetMapping("/{post_id}/comments")
+  public List<Comment> getComments(@PathVariable(value = "post_id") Long post_id){
+    Optional<Post> post = postRepository.findById(post_id);
+    if(post.isEmpty()){
+      throw new PostNotFoundException("Post not found.");
+    }
+    List<Comment> comments = commentRepository.findByPost(post.get());
+    return comments;
+  }
 }
