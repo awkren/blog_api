@@ -8,8 +8,13 @@ import com.ren.blog.posts.PostRepository;
 import com.ren.blog.posts.PostRequestDTO;
 import com.ren.blog.posts.PostResponseDTO;
 import jakarta.validation.Valid;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.data.domain.Page;
@@ -39,7 +44,7 @@ public class Controller {
   @Autowired private PostRepository postRepository;
   @Autowired private CommentRepository commentRepository;
 
-  @GetMapping
+  @GetMapping // -> http://localhost:8080/posts
   public List<PostResponseDTO> getPosts(
       @RequestParam Optional<Integer> page, @RequestParam Optional<String> sortBy) {
     // Here in paging we define what we want to show. the 0 represents the page we
@@ -50,7 +55,7 @@ public class Controller {
     return pagedResult.getContent().stream().map(PostResponseDTO::new).toList();
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/{id}") // -> http://localhost:8080/posts/{id}
   public ResponseEntity<Object> getSinglePost(@PathVariable(value = "id") Long id) {
     Optional<Post> getPost = postRepository.findById(id);
     if (getPost.isEmpty()) {
@@ -59,7 +64,7 @@ public class Controller {
     return ResponseEntity.status(HttpStatus.OK).body(getPost.get());
   }
 
-  @GetMapping("/search")
+  @GetMapping("/search") // -> http://localhost:8080/posts/search?keyword={word}
   public List<Post> searchPosts(@RequestParam(value = "keyword", required = false) String keyword) {
     if (keyword != null) {
       return postRepository.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(
@@ -70,13 +75,13 @@ public class Controller {
   }
 
   @CrossOrigin(origins = "*", allowedHeaders = "*")
-  @PostMapping
+  @PostMapping // http://localhost:8080/posts
   public void savePost(@Valid @RequestBody PostRequestDTO data) {
     Post postData = new Post(data);
     postRepository.save(postData);
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/{id}") // -> http://localhost:8080/posts/{id}
   public ResponseEntity<Object> deletePost(@PathVariable(value = "id") Long id) {
     Optional<Post> getPost = postRepository.findById(id);
     if (getPost.isEmpty()) {
@@ -88,13 +93,13 @@ public class Controller {
     return ResponseEntity.status(HttpStatus.OK).body("Post deleted successfully!");
   }
 
-  @DeleteMapping
+  @DeleteMapping // -> http://localhost:8080/posts
   public ResponseEntity<Object> deleteAllPosts() {
     postRepository.deleteAll();
     return ResponseEntity.status(HttpStatus.OK).body("All posts deleted successfully!");
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/{id}") // -> http://localhost:8080/posts/{id}
   public ResponseEntity<Object> updatePost(
       @PathVariable(value = "id") Long id, @RequestBody PostRequestDTO data) {
     Optional<Post> getPost = postRepository.findById(id);
@@ -107,7 +112,7 @@ public class Controller {
     return ResponseEntity.status(HttpStatus.OK).body(updatedPost);
   }
 
-  @GetMapping("/{post_id}/comments/{id}")
+  @GetMapping("/{post_id}/comments/{id}") // -> http://localhost:8080/posts/{post_id}/comments/{id}
   public ResponseEntity<Object> getSingleComment(@PathVariable(value = "id") Long id){
     Optional<Comment> getComment = commentRepository.findById(id);
     if (getComment.isEmpty()) {
@@ -116,7 +121,7 @@ public class Controller {
     return ResponseEntity.status(HttpStatus.OK).body(getComment.get());
   }
 
-  @PostMapping("/{post_id}/comments")
+  @PostMapping("/{post_id}/comments") // -> http://localhost:8080/posts/{post_id}/comments
   public void saveComment(
       @PathVariable(value = "post_id") Long post_id, @Valid @RequestBody Comment comment) {
     Optional<Post> post = postRepository.findById(post_id);
@@ -128,7 +133,7 @@ public class Controller {
     commentRepository.save(comment);
   }
 
-  @GetMapping("/{post_id}/comments")
+  @GetMapping("/{post_id}/comments") // -> http://localhost:8080/posts/{post_id}/comments
   public List<Comment> getComments(@PathVariable(value = "post_id") Long post_id){
     Optional<Post> post = postRepository.findById(post_id);
     if(post.isEmpty()){
@@ -136,5 +141,15 @@ public class Controller {
     }
     List<Comment> comments = commentRepository.findByPost(post.get());
     return comments;
+  }
+
+  @DeleteMapping("/{post_id}/comments/{commentary_id}")
+  public ResponseEntity<Object> deleteSingleComment(@PathVariable(value = "commentary_id") Long commentaryId){
+    Optional<Comment> getComment = commentRepository.findById(commentaryId);
+    if(getComment.isEmpty()){
+      throw new PostNotFoundException("Commentary not found.");
+    }
+    commentRepository.delete(getComment.get());
+    return ResponseEntity.status(HttpStatus.OK).body("Commentary deleted successfully.");
   }
 }
