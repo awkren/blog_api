@@ -36,6 +36,7 @@ public class SecurityConfigurations {
             .requestMatchers(HttpMethod.POST, "/posts/{id}/comments").hasRole("USER")
             .requestMatchers(HttpMethod.GET, "/posts/{id}/comments").permitAll()
             .requestMatchers(HttpMethod.GET, "/posts/{id}/comments/{comment_id}").permitAll()
+            .requestMatchers(HttpMethod.DELETE, "/posts/{id}/comments/{comment_id}").hasRole("ADMIN")
             .requestMatchers(HttpMethod.GET, "/posts").permitAll()
             .anyRequest().authenticated()
         )
