@@ -101,6 +101,18 @@ The comments are automatically associated with the post by reference in the data
 }
 ```
 
+You can also display only the commentaries of a specific post with:
+
+```
+GET /posts/{postId}/comments/{commentaryId}
+```
+
+It is also possible to delete commentaries
+
+```
+DELETE /posts/{postId}/comments/{commentaryId}
+```
+
 <hr>
 
 ### **It also has a search functionality that do searches based on keywords. It works by search for matching keywords in either the title or content of a post.**
