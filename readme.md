@@ -140,6 +140,42 @@ It should return something like this:
 ]
 ```
 
+### **It also features a Login/Register system**
+
+To create a new account, just send a POST request to /auth/register with the following data:
+
+```json
+{
+  "login": "Renan",
+  "password": "123"
+}
+```
+
+Want that user to be an admin? Just add the admin role:
+
+```json
+{
+    "login": "Renan",
+    "password": "123",
+    "role": "ADMIN"
+}
+```
+
+Note that is it not very smart to allows users to give themselves an admin role. I just didn't remove it from the code for testing purposes.
+
+If no role is sent in that JSON request, a `USER` role will be given automatically, thus making this `USER` not able to create posts, for obvious reasons.
+
+As said above, only admins are allowed to create posts. So, if you created an admin account and want to create a post, you should login into your account:
+
+```json
+{
+  "login": "Renan",
+  "password": "123"
+}
+```
+
+It is going to return you a bearer token, which you'll use to authenticate yourself, so you'll be able to create a post.
+
 ## How to run it
 
 As we'll be using a docker-compose file with PostgreSQL and pgAdmin in it, there's no need to install it. Just remember to create a volume using the same name in the docker-compose file.
